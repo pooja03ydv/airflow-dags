@@ -36,7 +36,10 @@ if k8s:
         catchup=False,
         tags=["example3"],
     ) as dag:
-              kube_exec_config_resource_limits = {
+         k8s_resource_requirements = k8s.V1ResourceRequirements(
+            requests={"memory": "512Mi"}, limits={"memory": "512Mi"}
+        )
+         kube_exec_config_resource_limits = {
             "pod_override": k8s.V1Pod(
                 spec=k8s.V1PodSpec(
                     containers=[
