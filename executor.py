@@ -227,7 +227,7 @@ if k8s:
 
         @task(executor_config=kube_exec_config_resource_limits)
         def task_with_resource_limits():
-            print_stuff()
+          return BashOperator(task_id='sleep', bash_command='sleep 300')
 
         four_task = task_with_resource_limits()
 
