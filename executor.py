@@ -207,7 +207,7 @@ if k8s:
 
         # Use k8s_client.V1ResourceRequirements to define resource limits
         k8s_resource_requirements = k8s.V1ResourceRequirements(
-            requests={"memory": "512Mi"}, limits={"memory": "512Mi"}
+            requests={"cpu": "1"}, limits={"cpu": "1"}
         )
 
         kube_exec_config_resource_limits = {
