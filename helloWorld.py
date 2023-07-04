@@ -14,3 +14,4 @@ dag = DAG('hello_world', description='Hello World DAG',
 hello_operator = PythonOperator(task_id='hello_k8s', python_callable=print_hello, dag=dag)
 
 hello_operator
+dag.destroy()
