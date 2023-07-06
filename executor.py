@@ -237,3 +237,9 @@ if k8s:
             >> third_task
             >> [base_image_task, four_task]
         )
+
+        def process_payload(payload): 
+          # Process the payload here 
+          print("Received payload:", payload)
+
+
