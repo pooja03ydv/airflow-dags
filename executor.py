@@ -231,15 +231,23 @@ if k8s:
 
         four_task = task_with_resource_limits()
 
+        def process_payload(payload): 
+          # Process the payload here 
+          print("Received payload:", payload)
+
+        five_task = PythonOperator(
+           task_id='process_payload',
+           python_callable=process_payload,
+          dag=dag
+)
+        
         (
             start_task()
             >> [volume_task, other_ns_task, sidecar_task]
             >> third_task
-            >> [base_image_task, four_task]
+            >> [base_image_task, four_task, five_task]
         )
 
-        def process_payload(payload): 
-          # Process the payload here 
-          print("Received payload:", payload)
+
 
 
