@@ -10,6 +10,7 @@ default_args = {
 
 dag = DAG(
     'create_pod_with_resource_limits',
+     default_args=default_args,
     schedule_interval=None
 )
 
