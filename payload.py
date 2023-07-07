@@ -27,9 +27,8 @@ def create_pod(payload):
         "spec": {
             "containers": [
                 {
-                    "name": "my-container",
-                    "image": "my-image:latest",
-                    "command": ["python", "my_script.py"],
+                    "name": "spring",
+                    "image": "poyadav3/mavenbuild:66",
                     "resources": {
                         "limits": {
                             "cpu": payload['cpu'],
