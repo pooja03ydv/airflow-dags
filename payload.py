@@ -31,8 +31,8 @@ def create_pod(payload):
                     "image": "poyadav3/mavenbuild:66",
                     "resources": {
                         "limits": {
-                            "cpu": payload['cpu'],
-                            "memory": payload['memory']
+                            "cpu": "1",
+                            "memory": "1Gi"
                         }
                     }
                 }
