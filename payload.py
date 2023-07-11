@@ -14,13 +14,12 @@ dag = DAG(
     schedule_interval=None
 )
 
-def start_pod(resource_limits):
+def start_pod():
     start_pod_task = KubernetesPodOperator(
         task_id='start_pod',
         name='my-pod',
         image='poyadav3/mavenbuild:66',
         namespace='default',
-        resources=resource_limits,
         get_logs=True,
         dag=dag
      )
@@ -29,6 +28,5 @@ def start_pod(resource_limits):
 start_pod_task = PythonOperator(
     task_id='start_pod_task',
     python_callable=start_pod,
-    op_args=[{'cpu': '1', 'memory': '1Gi'}],
     dag=dag
 )
