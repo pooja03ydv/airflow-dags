@@ -28,6 +28,5 @@ def start_pod(resource_limits):
 start_pod_task = PythonOperator(
     task_id='start_pod_task',
     python_callable=start_pod,
-    op_args=[{'cpu': '1', 'memory': '1Gi'}],
     dag=dag
 )
