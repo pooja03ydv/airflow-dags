@@ -20,7 +20,6 @@ def start_pod(resource_limits):
         name='my-pod',
         image='poyadav3/mavenbuild:66',
         namespace='default',
-        resources=resource_limits,
         get_logs=True,
         dag=dag
      )
