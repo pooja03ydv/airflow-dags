@@ -9,7 +9,7 @@ default_args = {
 }
 
 dag = DAG(
-    'start_kubernetes_pod',
+    dag_id=start_kubernetes_pod,
     default_args=default_args,
     schedule_interval=None
 )
