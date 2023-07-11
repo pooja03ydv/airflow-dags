@@ -22,11 +22,6 @@ def start_pod(resource_limits):
         namespace='default',
         get_logs=True,
         dag=dag
-    
-    )
+     )
 
-start_pod_task = PythonOperator(
-    task_id='start_pod_task',
-    python_callable=start_pod,
-    dag=dag
-)
+
