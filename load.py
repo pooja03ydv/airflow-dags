@@ -34,7 +34,8 @@ def create_pod_async(payload):
                     "image": "poyadav3/mavenbuild:66",
                     "resources": {
                         "limits": {
-                            "cpu": payload,
+                            "cpu": CPU,
+                            "memory": MEMORY
                         }
                     }
                 }
@@ -48,6 +49,6 @@ def create_pod_async(payload):
 create_pod_task = PythonOperator(
     task_id='create_pod_async',
     python_callable=create_pod_async,
-    op_kwargs={'payload': '{{ dag_run.conf["cpu"] }}'},
+    op_kwargs={'CPU': '{{ dag_run.conf["cpu"] }}', 'MEMORY': '{{ dag_run.conf["memory"] }}'},
     dag=dag
 )
