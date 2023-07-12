@@ -1,6 +1,5 @@
 from datetime import datetime
 from airflow import DAG
-from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
 from airflow.operators.python_operator import PythonOperator
 from kubernetes import client, config
 
@@ -35,8 +34,7 @@ def create_pod_async(payload):
                     "image": "poyadav3/mavenbuild:66",
                     "resources": {
                         "limits": {
-                            "cpu": payload['cpu'],
-                     #       "memory": payload['memory']
+                            "cpu": payload,
                         }
                     }
                 }
@@ -49,7 +47,7 @@ def create_pod_async(payload):
 
 create_pod_task = PythonOperator(
     task_id='create_pod_async',
-    op_kwargs={'payload': '{{ dag_run.conf["cpu"] }}'},
     python_callable=create_pod_async,
+    op_kwargs={'payload': '{{ dag_run.conf["cpu"] }}'},
     dag=dag
 )
