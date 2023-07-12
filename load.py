@@ -47,8 +47,9 @@ def create_pod_async(payload):
     v1.create_namespaced_pod(body=pod_manifest, namespace="default")
     print("Pod created asynchronously.")
 
-create_pod_task = PythonOperator(
+create_pod_task = KubernetesPodOperator(
     task_id='create_pod_async',
+    op_kwargs={'payload': '{{ dag_run.conf["payload"] }}'},
     python_callable=create_pod_async,
     dag=dag
 )
