@@ -15,7 +15,7 @@ dag = DAG(
     schedule_interval=None
 )
 
-def create_pod_async():
+def create_pod_async(payload):
     config.load_incluster_config()  # Load Kubernetes configuration for in-cluster access
     v1 = client.CoreV1Api()
 
@@ -49,7 +49,6 @@ def create_pod_async():
 
 create_pod_task = PythonOperator(
     task_id='create_pod_async',
-    op_kwargs={'payload': '{{ dag_run.conf }}'},
     python_callable=create_pod_async,
     dag=dag
 )
