@@ -36,7 +36,7 @@ def create_pod_async(payload):
                     "resources": {
                         "limits": {
                             "cpu": payload['cpu'],
-                            "memory": payload['memory']
+                     #       "memory": payload['memory']
                         }
                     }
                 }
@@ -49,7 +49,7 @@ def create_pod_async(payload):
 
 create_pod_task = PythonOperator(
     task_id='create_pod_async',
-    op_kwargs={'payload': '{{ dag_run.conf["payload"] }}'},
+    op_kwargs={'payload': '{{ dag_run.conf["cpu"] }}'},
     python_callable=create_pod_async,
     dag=dag
 )
