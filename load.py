@@ -2,6 +2,7 @@ from datetime import datetime
 from airflow import DAG
 from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
 from airflow.operators.python_operator import PythonOperator
+from kubernetes import client, config
 
 default_args = {
     'owner': 'airflow',
@@ -9,17 +10,20 @@ default_args = {
 }
 
 dag = DAG(
-     dag_id="create_pod_with_resource_limits",
-     default_args=default_args,
-     schedule_interval=None
+    'create_kubernetes_pod_async',
+    default_args=default_args,
+    schedule_interval=None
 )
 
-def create_pod(payload):
+def create_pod_async():
+    config.load_incluster_config()  # Load Kubernetes configuration for in-cluster access
+    v1 = client.CoreV1Api()
+
     pod_manifest = {
         "apiVersion": "v1",
         "kind": "Pod",
         "metadata": {
-            "name": "my-pod",
+            "name": "spring-app",
             "labels": {
                 "app": "my-app"
             }
@@ -27,25 +31,24 @@ def create_pod(payload):
         "spec": {
             "containers": [
                 {
-                    "name": "spring",
+                    "name": "my-container",
                     "image": "poyadav3/mavenbuild:66",
                     "resources": {
-                            "cpu": payload['cpu']
+                        "limits": {
+                            "cpu": "200m",
+                            "memory": "1Gi"
+                        }
                     }
                 }
             ]
         }
     }
-    configuration = client.Configuration()  # Create a Kubernetes client configuration
-    api_instance = client.CoreV1Api(client.ApiClient(configuration))
 
-    namespace = "default"
-    api_response = api_instance.create_namespaced_pod(body=pod_manifest, namespace=namespace)
-    print(api_response)
+    v1.create_namespaced_pod(body=pod_manifest, namespace="default")
+    print("Pod created asynchronously.")
 
 create_pod_task = PythonOperator(
-    task_id='create_pod',
-    python_callable=create_pod,
-    op_kwargs={'payload': '{{ dag_run.conf }}'},
+    task_id='create_pod_async',
+    python_callable=create_pod_async,
     dag=dag
 )
