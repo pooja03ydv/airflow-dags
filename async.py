@@ -12,9 +12,6 @@ dag = DAG(
     schedule_interval=None
 )
 async def create_pod_async():
-    # Create and configure your Pod here
-    # ...
-
 create_pod_task = AsyncKubernetesPodOperator(
     task_id='create_pod_async',
     namespace='default',
