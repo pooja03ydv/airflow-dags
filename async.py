@@ -12,7 +12,7 @@ dag = DAG(
     schedule_interval=None
 )
 async def create_pod_async():
-create_pod_task = AsyncKubernetesPodOperator(
+ create_pod_task = AsyncKubernetesPodOperator(
     task_id='create_pod_async',
     namespace='default',
     image='poyadav3/mavenbuild:66'
